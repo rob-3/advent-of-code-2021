@@ -6,11 +6,13 @@ main = do
 
 binaryDiagnostic :: [[Int]] -> Integer
 binaryDiagnostic xs =
-  binaryToInt gamma * binaryToInt epsilon
+  gamma * epsilon
   where
     len = length xs
-    gamma = map (toInteger . fromEnum . \x -> x > len `quot` 2) (foldr1 (zipWith (+)) xs)
-    epsilon = map (toInteger . fromEnum . \x -> x == 0) gamma
+    gammaBits = map (toInteger . fromEnum . \x -> x > len `quot` 2) (foldr1 (zipWith (+)) xs)
+    gamma = binaryToInt gammaBits
+    epsilonBits = map (toInteger . fromEnum . \x -> x == 0) gammaBits
+    epsilon = binaryToInt epsilonBits
 
 binaryToInt :: [Integer] -> Integer
 binaryToInt = foldr1 (\x acc -> acc * 2 + x) . reverse
